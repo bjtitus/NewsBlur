@@ -48,7 +48,13 @@
 @dynamic responseSerializer;
 
 + (instancetype)manager {
-    return [[[self class] alloc] initWithBaseURL:nil];
+    static AFHTTPSessionManager *sharedManager = nil;
+    static dispatch_once_t onceToken;
+    dispatch_once(&onceToken, ^{
+        sharedManager = [[[self class] alloc] initWithBaseURL:nil];
+    });
+    
+    return sharedManager;
 }
 
 - (instancetype)init {
